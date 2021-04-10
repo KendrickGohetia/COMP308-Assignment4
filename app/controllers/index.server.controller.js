@@ -8,7 +8,8 @@ require('@tensorflow/tfjs-node');
     const irisTesting = require('../../iris-testing.json');
     var lossValue;
 
-    const testingData = tf.tensor2d(irisTesting.map(item => [
+    // const testingData = tf.tensor2d(irisTesting.map(item => [
+    var testingData = tf.tensor2d(irisTesting.map(item => [
         item.sepal_length, item.sepal_width,
         item.petal_length, item.petal_width,
     ]))
