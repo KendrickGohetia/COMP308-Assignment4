@@ -7,6 +7,7 @@ require('@tensorflow/tfjs-node');
     const iris = require('../../iris.json');
     const irisTesting = require('../../iris-testing.json');
     var lossValue;
+    var epochs = 100;
 
     // const testingData = tf.tensor2d(irisTesting.map(item => [
     var testingData = tf.tensor2d(irisTesting.map(item => [
@@ -77,7 +78,7 @@ exports.trainAndPredict = function (req, res) {
         //train the model
         await model.fit(trainingData, outputData,         
             {
-                epochs: 100,
+                epochs: epochs,
                 callbacks: { //list of callbacks to be called during training
                     onEpochEnd: async (epoch, log) => {
                         lossValue = log.loss;
@@ -128,10 +129,10 @@ exports.trainAndPredict = function (req, res) {
 exports.addTestData = function(req,res){
     var sepal_length,sepal_width,petal_length,petal_width;
 
-    sepal_length = req.body.sepal_length;
-    sepal_width = req.body.sepal_width;
-    petal_length = req.body.petal_length;
-    petal_width = req.body.petal_width;
+    sepal_length = parseFloat(req.body.sepal_length);
+    sepal_width = parseFloat(req.body.sepal_width);
+    petal_length = parseFloat(req.body.petal_length);
+    petal_width = parseFloat(req.body.petal_width);
 
     var json=[
         {
@@ -141,10 +142,14 @@ exports.addTestData = function(req,res){
             "petal_width": petal_width
         }
     ];
-    console.log('Herere');
+
+    epochs = parseInt(req.body.epochs);
+
+    console.log(epochs);
     testingData = tf.tensor2d(json.map(item => [
         item.sepal_length, item.sepal_width,
         item.petal_length, item.petal_width,
     ]));
+    res.status(200).send(json);
 
 };

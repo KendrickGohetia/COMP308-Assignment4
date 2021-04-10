@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 //
 function AddData(props) {
     //
-    const [app_data, setAppData] = useState({ sepal_length: '', sepal_width: '', petal_length: '', petal_width: ''});
+    const [app_data, setAppData] = useState({ sepal_length: '', sepal_width: '', petal_length: '', petal_width: '',epochs: ''});
     const [showLoading, setShowLoading] = useState(false);
     //
     const apiUrl = "http://localhost:3000/adddata"
@@ -17,12 +17,12 @@ function AddData(props) {
     const saveCourse = (e) => {
         setShowLoading(true);
         e.preventDefault();
-        const data = {sepal_length: app_data.sepal_length, sepal_width: app_data.sepal_width, petal_length: app_data.petal_length, petal_width: app_data.petal_width};
+        const data = {sepal_length: app_data.sepal_length, sepal_width: app_data.sepal_width, petal_length: app_data.petal_length, petal_width: app_data.petal_width, epochs : app_data.epochs};
         //
         axios.post(apiUrl, data)
         .then((result) => {
             setShowLoading(false);
-            console.log('results from save course:',result.data)
+            console.log('result from add data:',result.data)
             props.history.push('/result')
 
         }).catch((error) => setShowLoading(false));
@@ -59,6 +59,10 @@ function AddData(props) {
               <Form.Group>
                 <Form.Label>Petal Width</Form.Label>
                 <Form.Control type="number" name="petal_width" id="title" placeholder="Enter Petal Width" value={app_data.petal_width} onChange={onChange} />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Epochs</Form.Label>
+                <Form.Control type="number" name="epochs" id="title" placeholder="Enter Petal Width" value={app_data.epochs} onChange={onChange} />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Add Data

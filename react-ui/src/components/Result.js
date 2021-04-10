@@ -18,6 +18,7 @@ function Result() {
         .then(result => {
           console.log('result.data:',result.data)
           setData(result.data)
+          console.log('Data Row2',data.row1)
           setShowLoading(false)
         }).catch((error) => {
           console.log('error in fetchData:', error)
@@ -40,12 +41,12 @@ function Result() {
             <li>virginica: 0,1,0</li>
             <li>versicolor: 0,0,1 </li>
 
-            <table className="App-table">
+            <table border="1" className="App-table">
               <thead>
                 <tr>
-                  <th>Test 1</th>
-                  <th>Test 2</th>
-                  <th>Test 3</th>
+                  <th>setosa</th>
+                  <th>virginica</th>
+                  <th>versicolor</th>
                 </tr>
               </thead>
               
@@ -53,21 +54,18 @@ function Result() {
                 
                 <tr>
                   <td className="App-td">
-                    { data.row1.map((value, index) => (
-                      <p key={index}>{value}</p>
-                    ))}
-                  </td>
-                  <td className="App-td">
-                  { data.row2.map((value, index) => (
-                    <p key={index}>{value}</p>
-                  ))}
-                  </td>
-                  <td className="App-td">
-                  { data.row3.map((value, index) => (
-                    <p key={index}>{value}</p>
-                  ))}
+                    {
+                    data.row1[0]
+                    }
                   </td>
 
+                  <td>
+                  {data.row1[1]}
+                  </td>
+
+                  <td>
+                  {data.row1[2]}
+                  </td>
                 </tr>
               </tbody>
             </table>
