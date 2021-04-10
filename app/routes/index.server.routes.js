@@ -9,7 +9,7 @@ module.exports = function (app) {
             info: "see the results in console window"
         })
     });
-
+    app.post('/adddata',index.addTestData);
     app.get('/run', index.trainAndPredict);
 
 };

@@ -1,86 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Spinner from 'react-bootstrap/Spinner';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+
 import './App.css';
+import Home from './components/Home';
+import AddData from './components/AddData';
+import Result from './components/Result';
+
 //
 function App() {
-  const [data, setData] = useState({});
-  const [showLoading, setShowLoading] = useState(true);
-  const apiUrl = "http://localhost:3000/run";
-  //runs once after the first rendering of page
-  useEffect(() => {
-    const fetchData = async () => {
-      axios.get(apiUrl)
-        .then(result => {
-          console.log('result.data:',result.data)
-          setData(result.data)
-          setShowLoading(false)
-        }).catch((error) => {
-          console.log('error in fetchData:', error)
-        });
-      };  
-    fetchData();
-  }, []);
 
   return (
-    <div>
-      { showLoading === false
-        ? <div>
-            {showLoading && <Spinner animation="border" role="status">
-              <span className="sr-only">Loading...</span>
-            </Spinner> }
-              
-            <h1>Prediction Results</h1>
-            <h2> the values for species will be:</h2>
-            <li>setosa: 1,0,0</li> 
-            <li>virginica: 0,1,0</li>
-            <li>versicolor: 0,0,1 </li>
+    <Router>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/home">Home</Nav.Link>
+            <Nav.Link href="/adddata">Add Data</Nav.Link>
+            <Nav.Link href="/result">Result</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    
+      <div>          
+          <Route render ={()=> < Home />} path="/home" />
+          <Route render ={()=> < AddData />} path="/adddata" />
+          <Route render ={()=> < Result />} path="/result" />
+      </div>
 
-            <table className="App-table">
-              <thead>
-                <tr>
-                  <th>Test 1</th>
-                  <th>Test 2</th>
-                  <th>Test 3</th>
-                </tr>
-              </thead>
-              
-              <tbody>
-                
-                <tr>
-                  <td className="App-td">
-                    { data.row1.map((value, index) => (
-                      <p key={index}>{value}</p>
-                    ))}
-                  </td>
-                  <td className="App-td">
-                  { data.row2.map((value, index) => (
-                    <p key={index}>{value}</p>
-                  ))}
-                  </td>
-                  <td className="App-td">
-                  { data.row3.map((value, index) => (
-                    <p key={index}>{value}</p>
-                  ))}
-                  </td>
+    </Router>
 
-                </tr>
-              </tbody>
-            </table>
-
-              
-          </div>
-        : 
-        < div>
-          {showLoading && <Spinner animation="border" role="status">
-            <span className="sr-only">Waiting for results...</span>
-          </Spinner> }
-        </div>
-
-      }
-    </div>
 
   );
 }
-//
+//<Route render ={()=> < App />} path="/" />
 export default App;

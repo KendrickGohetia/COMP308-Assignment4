@@ -7,6 +7,11 @@ require('@tensorflow/tfjs-node');
     const iris = require('../../iris.json');
     const irisTesting = require('../../iris-testing.json');
     var lossValue;
+
+    const testingData = tf.tensor2d(irisTesting.map(item => [
+        item.sepal_length, item.sepal_width,
+        item.petal_length, item.petal_width,
+    ]))
     //
 exports.trainAndPredict = function (req, res) {
     console.log(irisTesting)
@@ -15,7 +20,7 @@ exports.trainAndPredict = function (req, res) {
     //
     //tensor of features for training data
     // include only features, not the output
-    const trainingData = tf.tensor2d(iris.map(item => [
+    var trainingData = tf.tensor2d(iris.map(item => [
         item.sepal_length, item.sepal_width, item.petal_length,
         item.petal_width
     ]))
@@ -34,10 +39,7 @@ exports.trainAndPredict = function (req, res) {
     //console.log(outputData.dataSync())
     //
     //tensor of features for testing data
-    const testingData = tf.tensor2d(irisTesting.map(item => [
-        item.sepal_length, item.sepal_width,
-        item.petal_length, item.petal_width,
-    ]))
+    
     //console.log(testingData.dataSync())    
     //
     // build neural network using a sequential model
@@ -119,5 +121,29 @@ exports.trainAndPredict = function (req, res) {
 
     } //end of run function
     run()
+
+};
+
+exports.addTestData = function(req,res){
+    var sepal_length,sepal_width,petal_length,petal_width;
+
+    sepal_length = req.body.sepal_length;
+    sepal_width = req.body.sepal_width;
+    petal_length = req.body.petal_length;
+    petal_width = req.body.petal_width;
+
+    var json=[
+        {
+            "sepal_length": sepal_length,
+            "sepal_width": sepal_width,
+            "petal_length": petal_length,
+            "petal_width": petal_width
+        }
+    ];
+    console.log('Herere');
+    testingData = tf.tensor2d(json.map(item => [
+        item.sepal_length, item.sepal_width,
+        item.petal_length, item.petal_width,
+    ]));
 
 };
